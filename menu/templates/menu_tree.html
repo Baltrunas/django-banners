@@ -1,0 +1,32 @@
+{% load menu_tree %}
+{% spaceless %}
+{% if menu %}
+	<ul id='{{menu.0.group.type}}' class='level-{{level}}'>
+		{% for item in menu %}
+			<li id='{{item.group.type}}-item-{{item.id}}' {%if item.url == '/' and url == '/'%} class='this' {%endif%} {%if item.url != '/' and item.url in url%} class='this' {%endif%} {%if item.url == '/' and 'blog' in url%} class='this' {%endif%}>
+				<a href='{{item.url}}'>
+					{% if item.icon %}<img src='{{item.icon.url}}' style='margin: 0px; padding: 0px;'>{% endif %}
+					{{item.name}}
+				</a>
+				{% if item.childs.count > 0 %}
+					{% menu_tree item 'menu_tree.html' url level %}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% else %}
+	<ul id='{{childs.0.group.type}}-{{childs.0.group.id}}' class='level-{{level}}'>
+		{% for item in childs %}
+			<li id='{{item.group.type}}-item-{{item.id}}'>
+				<a href="{{ item.url }}">
+					{% if item.icon %}<img src='{{item.icon.url}}' style='margin: 0px; padding: 0px;'>{% endif %}
+					{{ item.name }}
+				</a>
+				{% if item.childs.count > 0 %}
+					{% menu_tree item 'menu_tree.html' url level %}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+{% endspaceless %}

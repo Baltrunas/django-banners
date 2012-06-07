@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+{% block content %}
+	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	
+	{% regroup news_archive by created.year as year_list %}
+	<div class='b-news_year_list'>
+		{% for year in year_list %}
+			<div class='b-news_year'>
+				{% if year.grouper == news_year %}
+					<b>{{ year.grouper }}</b>
+					{% regroup news_year_archive by created.month as month_list %}
+					{% for month in month_list %}
+						<br>
+						<a href='{{category.full_url}}/{{ news_year }}/{{month.list.0.created|date:"m"|lower}}/'>
+							{{month.list.0.created|date:"M"|lower}}
+						</a>
+					{% endfor %}
+					
+				{% elif forloop.first %}
+					<a href='{{category.full_url}}/'>{{ year.grouper }}</a>
+				{% else %}
+					<a href='{{category.full_url}}/{{ year.grouper }}/'>{{ year.grouper }}</a>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<div id='news'>
+		{% for news in news_year_archive %}
+			<article>
+				<time pubdate datetime='{{ news.created|date:"d-m-Y" }}'>{{ news.created|date:"j E Y"|lower }}</time>
+				<p>{{ news.title|safe }}</p><br>
+			</article>
+		{% endfor %}
+	</div>
+{% endblock %}

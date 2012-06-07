@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+{% block content %}
+<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	{{ page.intro_text|safe }}
+	{% if page.img %}<img src='{{ page.img.url }}' width='620'><br>{% endif %}
+	<hr>
+	{{ page.text|safe }}
+{% endblock %}

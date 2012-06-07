@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block content %}
+	<h1>{% if seo.header %}{{ seo.header }}{% else %}{{ header }}{% endif %}</h1>
+	
+	{% regroup news_archive by created.year as year_list %}
+	<div class='b-news_year_list'>
+		{% for year in year_list %}
+			<div class='b-news_year'>
+				{% if year.grouper == news_year %}
+					<b>{{ year.grouper }}</b>
+					{% regroup news_year_archive by created.month as month_list %}
+					{% for month in month_list %}
+						{% if month.grouper == news_month %}
+							<br>
+
+							{% regroup news_month_archive by created.day as day_list %}
+							{% for day in day_list %}
+								{% if news_day == day.grouper %}
+									<b>{{day.list.0.created|date:"d"}}</b>
+								{% else %}
+									<a href='{{category.full_url}}/{{ news_year }}/{{month.list.0.created|date:"m"}}/{{day.list.0.created|date:"d"}}/'>
+										{{day.list.0.created|date:"d"}}</a>
+								
+								{% endif %}
+							{% endfor %}
+							<b>{{month.list.0.created|date:"M"|lower}}</b>
+						{% else %}
+							<br>
+							<a href='{{category.full_url}}/{{ news_year }}/{{month.list.0.created|date:"m"}}/'>
+								{{month.list.0.created|date:"M"|lower}}
+							</a>
+						{% endif %}
+					{% endfor %}
+					
+				{% elif forloop.first %}
+					<a href='{{category.full_url}}/'>{{ year.grouper }}</a>
+				{% else %}
+					<a href='{{category.full_url}}/{{ year.grouper }}/'>{{ year.grouper }}</a>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<div id='news'>
+		{% for news in news_day_archive %}
+			<article>
+				<time pubdate datetime='{{ news.created|date:"d-m-Y" }}'>{{ news.created|date:"j E Y"|lower }}</time>
+				<p>{{ news.title|safe }}</p><br>
+			</article>
+		{% endfor %}
+	</div>
+{% endblock %}
