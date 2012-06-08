@@ -1,7 +1,0 @@
-{% extends 'index.html' %}
-{% block content %}
-	<div id="title"><h1>{% if seo.header %}{{ seo.header }}{% else %}<b>&sect;</b> {{ header }}{% endif %}</h1></div>
-	<div id="post">
-	{{ page.text|safe }}
-	</div>
-{% endblock %}

@@ -1,10 +1,11 @@
-﻿dj-banner
+﻿django-banner
 =========
 Подключение:
 1)	Добавить 'banner' в INSTALLED_APPS в settings.py
 2)	Добавить url(r'^banner/', include('banner.urls')) в urls.py
 
 Улучшения:
+=========
 1) model.py
 	0) коментарии
 2) admin.py
@@ -23,6 +24,7 @@
 6) static
 
 Всё хорошо:
+=========
 1) views.py
 	0) коментарии
 2) urls.py
