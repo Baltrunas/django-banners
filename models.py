@@ -2,6 +2,10 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from banners.managers import BiasedManager
+from django.conf import settings
+
+import hashlib
+from datetime import datetime
 
 
 class BannerGroup (models.Model):
@@ -10,6 +14,7 @@ class BannerGroup (models.Model):
 	width = models.PositiveSmallIntegerField(verbose_name=_('Width'), default=0)
 	height = models.PositiveSmallIntegerField(verbose_name=_('Height'), default=0)
 	speed = models.PositiveSmallIntegerField(verbose_name=_('Speed'), default=2000)
+
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
@@ -31,8 +36,9 @@ class Banner(models.Model):
 
 	title = models.CharField(verbose_name=_('Title'), max_length=255)
 	alt = models.CharField(verbose_name=_('Alt'), max_length=255)
+
 	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
-	img = models.ImageField(verbose_name=_('Image'), upload_to='banners')
+	img = models.FileField(verbose_name=_('Image'), upload_to='banners')
 	url = models.CharField(verbose_name=_('URL'), max_length=1024)
 	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'))
 	often = models.PositiveSmallIntegerField(
@@ -41,16 +47,18 @@ class Banner(models.Model):
 		choices=[ [i, i] for i in range(11) ]
 	)
 
-	# impressions = models.PositiveIntegerField(verbose_name=_('Impressions'), default=0)
+	hrml = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
+	flash = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
 	def key(slef):
-		import hashlib
-		from datetime import datetime
-		key = str(datetime.now()) + '323ee5ceae8fb449e003cf288aaf3270a70ddbfe11979536f1'
+		if hasattr(settings, 'SECRET_KEY'):
+			key = str(datetime.now()) + settings.SECRET_KEY
+		else:
+			key = str(datetime.now())
 		return hashlib.md5(key).hexdigest()
 
 	def log(self, request, type, key):
@@ -106,4 +114,21 @@ class Log(models.Model):
 		(1, 'view'),
 		(2, 'click')
 	)
+
 	type = models.PositiveSmallIntegerField(verbose_name=_('Type'), max_length=1, default=0, choices=TYPE_CHOICES)
+
+	def __unicode__(self):
+		return '%s - (%s)' % (self.banner, self.datetime)
+
+
+class LogStat(models.Model):
+	banner = models.ForeignKey(Banner, related_name='banner_stat', verbose_name=_('Banner'), blank=True)
+	group = models.ForeignKey(BannerGroup, related_name='group_stat', verbose_name=_('Group'), blank=True)
+	date = models.DateField(verbose_name=_('Data'))
+	view = models.PositiveIntegerField(verbose_name=_('Views'))
+	click = models.PositiveIntegerField(verbose_name=_('Clicks'))
+	unique_view = models.PositiveIntegerField(verbose_name=_('Unique Views'))
+	unique_view = models.PositiveIntegerField(verbose_name=_('Unique Clicks'))
+
+	def __unicode__(self):
+		return '%s - (%s)' % (self.banner, self.date)

@@ -13,6 +13,7 @@ Best banners app! Support rotation, sliders, sttistics!
 ```html
 <link rel="stylesheet" href="/static/css/slider.css">
 <script src="/static/js/slider.js" type="text/javascript"></script>
+<script src="/static/js/banners_log.js" type="text/javascript"></script>
 ```
 # Required
 * jQuery - http://jquery.com/
