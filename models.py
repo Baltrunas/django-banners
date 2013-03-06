@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*
 from django.db import models
 from django.utils.translation import ugettext as _
-from banner.managers import BiasedManager
+from banners.managers import BiasedManager
+
 
 class BannerGroup (models.Model):
-	name = models.CharField (verbose_name=_('Name'), max_length=255)
+	name = models.CharField(verbose_name=_('Name'), max_length=255)
 	slug = models.SlugField(verbose_name=_('Slug'), unique=True)
 	width = models.PositiveSmallIntegerField(verbose_name=_('Width'), default=0)
 	height = models.PositiveSmallIntegerField(verbose_name=_('Height'), default=0)
@@ -12,28 +13,27 @@ class BannerGroup (models.Model):
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
-	
+
+	def size(self):
+		return '%sx%s' % (self.width, self.height)
+
 	def __unicode__(self):
 		return '%s - [%s x %s]' % (self.name,  self.width, self.height)
-	
+
 	class Meta:
 		ordering = ['name']
 		verbose_name = _('Banner Group')
 		verbose_name_plural = _('Banner Groups')
 
+
 class Banner(models.Model):
 	objects = BiasedManager()
 
-	title = models.CharField (verbose_name=_('Title'), max_length=255)
-	alt = models.CharField (verbose_name=_('Alt'), max_length=255)
-	text = models.TextField(
-		verbose_name=_('Text'),
-		help_text='''<a class="btn" href="#" onclick="tinyMCE.execCommand('mceToggleEditor', false, 'id_text');">''' + _('ON \ OFF') + '</a> ' + _('Info'),
-		blank=True,
-		null=True
-	)
+	title = models.CharField(verbose_name=_('Title'), max_length=255)
+	alt = models.CharField(verbose_name=_('Alt'), max_length=255)
+	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
 	img = models.ImageField(verbose_name=_('Image'), upload_to='banners')
-	url = models.CharField (verbose_name=_('URL'), max_length=1024)
+	url = models.CharField(verbose_name=_('URL'), max_length=1024)
 	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'))
 	often = models.PositiveSmallIntegerField(
 		verbose_name=_('Often'),
@@ -41,7 +41,7 @@ class Banner(models.Model):
 		choices=[ [i, i] for i in range(11) ]
 	)
 
-	# impressions = models.PositiveIntegerField(verbose_name=_('Impressions'), default=0)	
+	# impressions = models.PositiveIntegerField(verbose_name=_('Impressions'), default=0)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
@@ -72,15 +72,17 @@ class Banner(models.Model):
 		return ('banner_view', (), {'banner_id': self.pk, 'key': self.key()})
 
 	def impressions(self):
-		return Log.objects.filter(banner = self.pk, type = 0).count()
+		return Log.objects.filter(banner=self.pk, type=0).count()
+
 	def views(self):
-		return Log.objects.filter(banner = self.pk, type = 1).count()
+		return Log.objects.filter(banner=self.pk, type=1).count()
+
 	def clicks(self):
-		return Log.objects.filter(banner = self.pk, type = 2).count()
-		
+		return Log.objects.filter(banner=self.pk, type=2).count()
+
 	def __unicode__(self):
 		return self.title
-	
+
 	def get_absolute_url(self):
 		if self.url == '#':
 			return self.url
@@ -89,6 +91,7 @@ class Banner(models.Model):
 			def get_absolute_url(self):
 				return ('banner_click', (), {'banner_id': self.pk, 'key': self.key()})
 			return get_absolute_url(self)
+
 
 class Log(models.Model):
 	banner = models.ForeignKey(Banner, related_name='logs')

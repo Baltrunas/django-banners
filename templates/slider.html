@@ -1,10 +1,43 @@
-<div class="slider-wrapper theme-default">
-	<div class="ribbon"></div>
-	<div id="slider" class="nivoSlider">
-		{% for slide in banners %}
-			<a href='{{ slide.get_absolute_url }}'>
-				<img src="{{ slide.image }}" alt="{{ slide.alt }}">
-			</a>
-		{% endfor%}
-	</div>
+{% load thumbnail %}
+
+<div id="slider-nav">
+	<button data-dir="prev">&lang;</button>
+	<button data-dir="next">&rang;</button>
 </div>
+<div class="slider">
+	<ul>
+		{% for banner in banners %}
+			<li>
+				<a href='{{ banner.get_absolute_url }}'>
+				{% thumbnail banner.img "620x325" crop="top" as im %}
+					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}">
+				{% endthumbnail %}
+					<span>{{ banner.title }}</span>
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+<style>
+	#slider-nav {width: {{ group.width }}px;}
+	#slider-nav button {height: {{ group.height }}px;}
+	.slider {width: {{ group.width }}px; height: {{ group.height }}px; margin-top: -{{ group.height }}px;}
+</style>
+
+
+<script>
+(function() {
+	var container = $('div.slider').css('overflow', 'hidden').children('ul'),
+		slider = new Slider( container, $('#slider-nav') );
+
+	slider.nav.find('button').on('click', function() {
+		slider.setCurrent($(this).data('dir'));
+		slider.transition();
+	});
+
+	setInterval(function(){
+		slider.setCurrent($(this).data('next'));
+		slider.transition();
+	}, {{ group.speed }})
+})();
+</script>
