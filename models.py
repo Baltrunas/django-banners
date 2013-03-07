@@ -13,7 +13,7 @@ class URL(models.Model):
 	title = models.CharField(verbose_name=_('Title'), max_length=256)
 	url = models.CharField(verbose_name=_('URL or URL RegEx'), max_length=2048)
 	regex = models.BooleanField(verbose_name=_('RegEx'), default=False)
-	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
+	sites = models.ManyToManyField(Site, related_name='site_urls', verbose_name=_('Sites'), null=True, blank=True)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
@@ -66,7 +66,7 @@ class Banner(models.Model):
 		help_text=_('A ten will display 10 times more often that a one.'),
 		choices=[[i, i] for i in range(11)]
 	)
-	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), null=True, blank=True)
+	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), null=True, blank=True)
 
 	hrml = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
 	flash = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
@@ -123,9 +123,9 @@ class Banner(models.Model):
 
 
 class Log(models.Model):
-	banner = models.ForeignKey(Banner, related_name='logs')
-	group = models.ForeignKey(BannerGroup, related_name='group_stat', verbose_name=_('Group'), blank=True)
-	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), blank=True)
+	banner = models.ForeignKey(Banner, related_name='banner_logs')
+	group = models.ForeignKey(BannerGroup, related_name='group_logs', verbose_name=_('Group'), blank=True)
+	urls = models.ManyToManyField(URL, related_name='url_logs', verbose_name=_('URLs'), blank=True)
 
 	user = models.ForeignKey('auth.User', null=True, blank=True, related_name='users', verbose_name=_('User'))
 	datetime = models.DateTimeField(verbose_name=_('Clicked At'), auto_now_add=True)
@@ -153,7 +153,7 @@ class LogStat(models.Model):
 	date = models.DateField(verbose_name=_('Data'))
 	view = models.PositiveIntegerField(verbose_name=_('Views'))
 	click = models.PositiveIntegerField(verbose_name=_('Clicks'))
-	unique_view = models.PositiveIntegerField(verbose_name=_('Unique Views'))
+	unique_click = models.PositiveIntegerField(verbose_name=_('Unique Views'), blank=True, null=True)
 	unique_view = models.PositiveIntegerField(verbose_name=_('Unique Clicks'))
 
 	def __unicode__(self):

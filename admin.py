@@ -31,8 +31,8 @@ admin.site.register(BannerGroup, BannerGroupAdmin)
 
 
 class LogGroupAdmin(admin.ModelAdmin):
-	list_display = ('banner', 'user', 'datetime', 'ip', 'user_agent', 'referrer', 'type')
-	search_fields = ('banner', 'user', 'datetime', 'ip', 'user_agent', 'referrer', 'type', 'key')
+	list_display = ('banner', 'user', 'datetime', 'ip', 'user_agent', 'page', 'type')
+	search_fields = ('banner', 'user', 'datetime', 'ip', 'user_agent', 'page', 'type', 'key')
 	list_filter = ('type', 'banner', 'user', 'datetime', 'ip')
 
 admin.site.register(Log, LogGroupAdmin)
