@@ -1,11 +1,31 @@
 # -*- coding: utf-8 -*
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from banners.managers import BiasedManager
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 import hashlib
 from datetime import datetime
+
+
+class URL(models.Model):
+	title = models.CharField(verbose_name=_('Title'), max_length=256)
+	url = models.CharField(verbose_name=_('URL or URL RegEx'), max_length=2048)
+	regex = models.BooleanField(verbose_name=_('RegEx'), default=False)
+	sites = models.ManyToManyField(Site, related_name='pages', verbose_name=_('Sites'), null=True, blank=True)
+
+	public = models.BooleanField(verbose_name=_('Public'), default=True)
+	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
+	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
+
+	def __unicode__(self):
+		return self.title
+
+	class Meta:
+		ordering = ['-created_at']
+		verbose_name = _('URL')
+		verbose_name_plural = _('URLs')
 
 
 class BannerGroup (models.Model):
@@ -44,8 +64,9 @@ class Banner(models.Model):
 	often = models.PositiveSmallIntegerField(
 		verbose_name=_('Often'),
 		help_text=_('A ten will display 10 times more often that a one.'),
-		choices=[ [i, i] for i in range(11) ]
+		choices=[[i, i] for i in range(11)]
 	)
+	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), null=True, blank=True)
 
 	hrml = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
 	flash = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
@@ -68,7 +89,7 @@ class Banner(models.Model):
 			'banner': self,
 			'ip': request.META.get('REMOTE_ADDR'),
 			'user_agent': request.META.get('HTTP_USER_AGENT'),
-			'referrer': request.META.get('HTTP_REFERER'),
+			'page': request.META.get('HTTP_REFERER'),
 		}
 
 		if request.user.is_authenticated():
@@ -103,11 +124,14 @@ class Banner(models.Model):
 
 class Log(models.Model):
 	banner = models.ForeignKey(Banner, related_name='logs')
+	group = models.ForeignKey(BannerGroup, related_name='group_stat', verbose_name=_('Group'), blank=True)
+	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), blank=True)
+
 	user = models.ForeignKey('auth.User', null=True, blank=True, related_name='users', verbose_name=_('User'))
 	datetime = models.DateTimeField(verbose_name=_('Clicked At'), auto_now_add=True)
 	ip = models.IPAddressField(verbose_name=_('IP'), null=True, blank=True)
 	user_agent = models.CharField(verbose_name=_('User Agent'), max_length=1024, null=True, blank=True)
-	referrer = models.URLField(verbose_name=_('Referrer'), null=True, blank=True)
+	page = models.URLField(verbose_name=_('Page'), null=True, blank=True)
 	key = models.CharField(verbose_name=_('User Agent'), max_length=32, null=True, blank=True)
 	TYPE_CHOICES = (
 		(0, 'impressions'),
@@ -124,6 +148,8 @@ class Log(models.Model):
 class LogStat(models.Model):
 	banner = models.ForeignKey(Banner, related_name='banner_stat', verbose_name=_('Banner'), blank=True)
 	group = models.ForeignKey(BannerGroup, related_name='group_stat', verbose_name=_('Group'), blank=True)
+	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), null=True, blank=True)
+
 	date = models.DateField(verbose_name=_('Data'))
 	view = models.PositiveIntegerField(verbose_name=_('Views'))
 	click = models.PositiveIntegerField(verbose_name=_('Clicks'))

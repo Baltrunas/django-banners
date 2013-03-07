@@ -1,7 +1,6 @@
 ﻿django-banners
 =========
-Best banners app! Support rotation, sliders, sttistics!
-
+Best banners app! Support rotation, sliders, branding, statistics!
 
 # Install
 * Add ```'banners',``` to INSTALLED_APPS in settings.py
@@ -15,20 +14,32 @@ Best banners app! Support rotation, sliders, sttistics!
 <script src="/static/js/slider.js" type="text/javascript"></script>
 <script src="/static/js/banners_log.js" type="text/javascript"></script>
 ```
+# How to use
+```html
+{% load banner %}
+{% banner_slider 'group_name' ['slider.html'] %}
+```
+
 # Required
 * jQuery - http://jquery.com/
 * sorl-thumbnail https://github.com/sorl/sorl-thumbnail
 
-
 # Plans
-=========
-* Add comments to model.py
-* Add comments to admin.py
-* Add graph to admin
-* Add comments to managers.py
-* Add templatetags/banners.py ```{{ banner 'slider' 'one' 'slider.html'}}```
-5) шаблоны вывода
-	0) коментарии
-	1) для слайдера
-	2) слайдер банеров
-	3) один банер
+* Add graph and statistic to admin or custom page
+* Add template tags
+	* Slider
+	* Branding with rotation
+	* Block load rotation
+	* Block slider rotation
+	* One banner
+
+# May be
+* Add to banners
+	* Count to show
+	* Count to click
+	* Only one show
+	* Only one click
+* Add to group
+	* Second width and height
+	* Type
+	* Template
