@@ -1,74 +1,116 @@
-#slider-nav { 
-	display: none; 
-	margin-top: 1em;
-	position: relative;
-	z-index: 100;
+/*
+ **************************
+ * =COMMON
+ **************************
+*/
+.slider_cower
+{
+	display: block;
+	clear: both;
+	padding: 10px;
+}
+
+
+.slider
+{
+	height: 325px;
 	width: 620px;
-}
-
-#slider-nav button {
+	display: block;
+	float: left;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	background: green;
 	padding: 0;
 	margin: 0;
-	display: inline-block;
-	cursor: pointer;
-	background: #000;
-	opacity: 0.2;
-	color: #fff;
-	height: 300px;
-	width: 50px;
-	text-align: center;
-	font-size: 70px;
-	border: none;
-	position: relative;
-	top: 0;
-	z-index: 1000;
 }
-
-#slider-nav button:last-child
+.slider ul
 {
-	float: right;
-}
-
-#slider-nav button:hover
-{
-	opacity: 0.4;
-}
-
-.slider {
-	width: inherit;
-	width: 700px;
-	height: 300px;
-	overflow: scroll;
-}
-
-.slider ul {
-	margin: 0;
+	width: 6200px;
+	height: 325px;
+	background: green;
 	padding: 0;
-	width: 10000px;
+	margin: 0;
 	list-style: none;
-}
-
-.slider li {
 	float: left;
 }
-
-.slider li a
+.slider ul li
 {
-	position: relative;
+	width: 620px;
+	height: 320px;
+	float: left;
+	padding: 0;
+	margin: 0;
 }
 
-.slider li a span
+.slider ul li img
 {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+
+.slider ul li .text
+{
+	position: relative;
+	height: 325px;
+	width: 620px;
+	display: table-cell;
 	box-sizing: border-box;
-	z-index: 1000;
-	padding: 25px 70px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	background: rgba(0,0,0,.25);
+	padding: 240px 75px 35px;
+	vertical-align: bottom;
+	float: left;
+	top: -325px;
+}
+.slider ul li a
+{
+	color: black;
+}
+
+.slider ul li a h1,
+.slider ul li a time
+{
+	font: bold 24px 'PT Sans', sans-serif;
+}
+.slider ul li a h1
+{
 	color: #fff;
-	font-size: 25px;
-	width: 100%;
+}
+
+.slider ul li a time
+{
+	color: #d2232a;
+}
+
+
+
+.slider-nav
+{
+	cursor: pointer;
+	text-align: center;
+	font-family: 'Times New Roman';
+	line-height: 325px;
+	float: left;
+	height: 325px;
+	display: block;
+	font-size: 35px;
+	background: rgba(0, 0, 0, 0.15);
+	width: 50px;
+	padding: 0;
+	margin: 0;
+	position: relative;
+	z-index: 10;
+	text-shadow: 0 1px 1px black;
+}
+.slider-nav:hover
+{
+	color: #fff;
+}
+
+.prev
+{
+	margin-right: -50px;
+}
+.next
+{
+	margin-left: -50px;
 }

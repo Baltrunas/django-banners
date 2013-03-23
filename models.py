@@ -69,7 +69,7 @@ class Banner(models.Model):
 	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), null=True, blank=True)
 
 	hrml = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
-	flash = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
+	flash = models.BooleanField(verbose_name=_('Is Flash?'), default=False)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
@@ -87,6 +87,7 @@ class Banner(models.Model):
 			'type': type,
 			'key': key,
 			'banner': self,
+			'group': self.group,
 			'ip': request.META.get('REMOTE_ADDR'),
 			'user_agent': request.META.get('HTTP_USER_AGENT'),
 			'page': request.META.get('HTTP_REFERER'),

@@ -25,6 +25,12 @@ Best banners app! Support rotation, sliders, branding, statistics!
 * sorl-thumbnail https://github.com/sorl/sorl-thumbnail
 
 # Plans
+* New slider types
+	* Set size
+	* Стрелки по бокам
+		* Eнот
+		* Fashion
+	* Стрелки снизу с цифрами [блога енот]
 * Add graph and statistic to admin or custom page
 * Add template tags
 	* Slider

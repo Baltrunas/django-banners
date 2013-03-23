@@ -1,71 +1,43 @@
 {% load thumbnail %}
 
 {% if banners %}
-<div id="slider-nav">
-	<button data-dir="prev">&lang;</button>
-	<button data-dir="next">&rang;</button>
-</div>
-<div class="slider">
-	<ul>
-		{% for banner in banners %}
-			<li class='b-banner' data-url='{{ banner.get_absolute_url }}'>
+<div class="slider_cower" id="main_slider">
+	<span  data-direction="prev" class='slider-nav prev'>&#9668;</span>
+	<div class="slider">
+		<ul>
+			{% for banner in banners %}
+			<li data-url='{{ banner.get_absolute_url }}'>
 				<a href='{{ banner.get_absolute_url }}'>
-				{% thumbnail banner.img group.size crop="top" as im %}
-					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-banner' data-view='{{ banner.image }}'>
-				{% endthumbnail %}
-					<span>{{ banner.title }}</span>
+					{% thumbnail banner.img group.size crop="top" as im %}
+						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-banner' data-view='{{ banner.image }}'>
+					{% endthumbnail %}
+					<div class='text'>
+						<time>{{ banner.alt }}</time>
+						<h1>{{ banner.title }}</h1>
+						{# <p>Lorem ipsum dolor sit amet.</p> #}
+					</div>
 				</a>
 			</li>
-		{% endfor %}
-	</ul>
+			{% endfor %}
+		</ul>
+	</div>
+	<span data-direction="next" class='slider-nav next'>&#9658;</span>
 </div>
+
+<script>
+(function() {
+	main_slider = new Slider('#main_slider');
+})();
+
+</script>
+
+{% comment %}
 <style>
 	#slider-nav {width: {{ group.width }}px;}
 	#slider-nav button {height: {{ group.height }}px;}
 	.slider {width: {{ group.width }}px; height: {{ group.height }}px; margin-top: -{{ group.height }}px;}
 </style>
 
+{% endcomment %}
 
-<script>
-(function() {
-	var container = $('div.slider').css('overflow', 'hidden').children('ul'),
-		slider = new Slider( container, $('#slider-nav') );
-
-	slider.nav.find('button').on('click', function() {
-		slider.setCurrent($(this).data('dir'));
-		slider.transition();
-	});
-
-	setInterval(function(){
-		slider.setCurrent($(this).data('next'));
-		slider.transition();
-	}, {{ group.speed }})
-})();
-</script>
-
-<!--
-$('#layer1').mousedown(function() {
-  alert('mouse down');
-});
-
-<div id="layer1" onmousedown="alert('mouse down')"> 
-<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
-codebase="http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" 
-width="200" height="300" id="myMovieName">
-<param name="movie" value="http://d1.files.namba.kg/files/55206891.swf" /> 
-<param name="quality" value="high" />
-<param name="play" value="true" />
-<param name="loop" value="true" />
-<param name="wmode" value="transparent" />
-<embed src="http://d1.files.namba.kg/files/55206891.swf" quality=high bgcolor=#d0f width="200" height="300" 
-name="myMovieName" type="application/x-shockwave-flash" 
-play="true" loop="true" wmode="transparent"
-pluginspage="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"
-
->
-</embed>
-</object>
-</div>
-
--->
 {% endif %}

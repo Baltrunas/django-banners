@@ -1,25 +1,29 @@
-function Slider( container, nav ) {
-	this.container = container;
-	this.nav = nav.show();
+function Slider(container){
+	original_container = container;
+	container = $(container + ' div').css('overflow', 'hidden').children('ul');
+	imgs = container.find('img');
+	console.log(imgs);
+	imgWidth = imgs[0].width;
+	imgsLen = imgs.length;
+	current = 0;
 
-	this.imgs = this.container.find('img');
-	this.imgWidth = this.imgs[0].width; // 600
-	this.imgsLen = this.imgs.length;
-
-	this.current = 0;
-}
-
-Slider.prototype.transition = function( coords ) {
-	this.container.animate({
-		'margin-left': coords || -( this.current * this.imgWidth )
+	$(original_container).children('.slider-nav').on('click', function() {
+		if ($(this).data('direction') === 'next') {
+			console.log(current, imgsLen);
+			if (current < imgsLen-1){
+					current++;
+			} else {
+				current = 0;
+			}
+		} else if ($(this).data('direction') === 'prev') {
+			if (current > 0) {
+				current--;
+			} else {
+				current=imgsLen-1;
+			}
+		}
+		container.animate({
+			'margin-left': -( current * imgWidth )
+		});
 	});
-};
-
-Slider.prototype.setCurrent = function( dir ) {
-	var pos = this.current;
-
-	pos += ( ~~( dir === 'next' ) || -1 );
-	this.current = ( pos < 0 ) ? this.imgsLen - 1 : pos % this.imgsLen;
-
-	return pos;
-};
+}
