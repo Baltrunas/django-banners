@@ -7,9 +7,8 @@
 {
 	display: block;
 	clear: both;
-	padding: 10px;
+	overflow: hidden;
 }
-
 
 .slider
 {
@@ -19,20 +18,20 @@
 	float: left;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	background: green;
 	padding: 0;
 	margin: 0;
 }
+
 .slider ul
 {
 	width: 6200px;
 	height: 325px;
-	background: green;
 	padding: 0;
 	margin: 0;
 	list-style: none;
 	float: left;
 }
+
 .slider ul li
 {
 	width: 620px;
@@ -54,13 +53,14 @@
 	position: relative;
 	height: 325px;
 	width: 620px;
-	display: table-cell;
+	/*display: table-cell;*/
 	box-sizing: border-box;
 	padding: 240px 75px 35px;
 	vertical-align: bottom;
 	float: left;
 	top: -325px;
 }
+
 .slider ul li a
 {
 	color: black;
@@ -71,6 +71,7 @@
 {
 	font: bold 24px 'PT Sans', sans-serif;
 }
+
 .slider ul li a h1
 {
 	color: #fff;
@@ -80,8 +81,6 @@
 {
 	color: #d2232a;
 }
-
-
 
 .slider-nav
 {
@@ -93,16 +92,20 @@
 	height: 325px;
 	display: block;
 	font-size: 35px;
-	background: rgba(0, 0, 0, 0.15);
+	background: rgba(0, 0, 0, 0.2);
+	opacity: 0.5;
+	color: #000;
 	width: 50px;
 	padding: 0;
 	margin: 0;
 	position: relative;
 	z-index: 10;
-	text-shadow: 0 1px 1px black;
 }
+
 .slider-nav:hover
 {
+	background: rgba(0, 0, 0, 0.1);
+	opacity: 1;
 	color: #fff;
 }
 
