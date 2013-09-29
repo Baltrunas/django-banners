@@ -39,7 +39,7 @@ def banner_group(context, group, tpl='slider.html'):
 
 
 @register.simple_tag(takes_context=True)
-def banner_group(context, banner_id, tpl='banner.html'):
+def banner_one(context, banner_id, tpl='banner.html'):
 	try:
 		request = context['request']
 
