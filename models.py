@@ -54,7 +54,7 @@ class BannerGroup (models.Model):
 class Banner(models.Model):
 	objects = BiasedManager()
 
-	title = models.CharField(verbose_name=_('Title'), max_length=255)
+	title = models.CharField(verbose_name=_('Title'), max_length=255, blank=True)
 	alt = models.CharField(verbose_name=_('Alt'), max_length=255)
 
 	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
@@ -111,7 +111,7 @@ class Banner(models.Model):
 		return Log.objects.filter(banner=self.pk, type=2).count()
 
 	def __unicode__(self):
-		return self.title
+		return self.title or self.alt
 
 	def get_absolute_url(self):
 		if self.url == '#':

@@ -1,43 +1,61 @@
 {% load thumbnail %}
 
 {% if banners %}
-<div class="slider_cower" id="main_slider">
-	<span  data-direction="prev" class='slider-nav prev'>&#9668;</span>
-	<div class="slider">
-		<ul>
+
+	<div class="b-slider m-{{ group.slug }}" id="slider-{{ group.slug }}">
+		<ul class='b-slider-list'>
 			{% for banner in banners %}
-			<li data-url='{{ banner.get_absolute_url }}'>
+			<li data-url='{{ banner.get_absolute_url }}' 
+				class='
+					b-slider-item
+					m-slider-item-{{ forloop.counter }}
+					{% if forloop.counter == 1 %}
+						m-slider-current
+					{% endif %}
+			'
+				data-slide='{{ forloop.counter }}'
+			>
+
 				<a href='{{ banner.get_absolute_url }}'>
 					{% thumbnail banner.img group.size crop="top" as im %}
-						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-banner' data-view='{{ banner.image }}'>
+						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-slider-item__img' data-view='{{ banner.image }}'>
 					{% endthumbnail %}
-					<div class='text'>
-						<time>{{ banner.alt }}</time>
-						<h1>{{ banner.title }}</h1>
-						{# <p>Lorem ipsum dolor sit amet.</p> #}
-					</div>
+
+					<span class='b-slider-item__title'>{{ banner.title }} {{ forloop.counter }}</span>
+					<span class='b-slider-item__text'>{{ banner.text }}</span>
 				</a>
 			</li>
 			{% endfor %}
 		</ul>
+
+		<ul class="b-slider-nav">
+			{% for banner in banners %}
+				<li class="b-slider-nav-button
+					{% if forloop.counter == 1 %}
+						m-slider-nav-current_button
+					{% endif %}
+				" data-slide='{{ forloop.counter }}'>
+					{{ forloop.counter }}
+				</li>
+			{% endfor %}
+		</ul>
+
+		<span  data-direction="prev" class='b-slider-nav-prev'>&#9001;</span>
+		<span data-direction="next" class='b-slider-nav-next'>&#9002;</span>
+
 	</div>
-	<span data-direction="next" class='slider-nav next'>&#9658;</span>
-</div>
 
 <script>
-(function() {
-	main_slider = new Slider('#main_slider');
-})();
-
+	(function() {
+		$('.m-{{ group.slug }}').bannersSlider({'auto_play': true, 'speed': {{ group.speed }}});
+	})();
 </script>
 
-{% comment %}
 <style>
-	#slider-nav {width: {{ group.width }}px;}
-	#slider-nav button {height: {{ group.height }}px;}
-	.slider {width: {{ group.width }}px; height: {{ group.height }}px; margin-top: -{{ group.height }}px;}
+	.m-{{ group.slug }} {
+		width: {{ group.width }}px;
+		height: {{ group.height }}px;
+	}
 </style>
-
-{% endcomment %}
 
 {% endif %}

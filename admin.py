@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*
 from django.contrib import admin
+
+from banners.models import URL
 from banners.models import BannerGroup
 from banners.models import Banner
 from banners.models import Log
+
+class URLAdmin(admin.ModelAdmin):
+	list_display = ['title', 'url', 'regex', 'public', 'created_at', 'updated_at']
+	search_fields = ['title', 'url', 'regex', 'sites', 'public', 'created_at', 'updated_at']
+	list_filter = ['regex', 'sites', 'public']
+	list_editable = ['regex', 'public']
+
+admin.site.register(URL, URLAdmin)
 
 
 class BannerAdminInline(admin.StackedInline):
@@ -12,7 +22,7 @@ class BannerAdminInline(admin.StackedInline):
 
 
 class BannerAdmin(admin.ModelAdmin):
-	list_display = ('title', 'url', 'impressions', 'views', 'clicks', 'public', 'created_at', 'updated_at')
+	list_display = ('__unicode__', 'url', 'impressions', 'views', 'clicks', 'public', 'created_at', 'updated_at')
 	search_fields = ('title', 'url', 'impressions', 'views', 'clicks', 'public', 'created_at', 'updated_at')
 	list_filter = ('public', )
 	list_editable = ('public',)
