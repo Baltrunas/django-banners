@@ -14,23 +14,23 @@ Best banners app! Support rotation, sliders, branding, statistics!
 <script src="/static/js/slider.js" type="text/javascript"></script>
 <script src="/static/js/banners_log.js" type="text/javascript"></script>
 ```
+
+# Required
+* jQuery - http://jquery.com/
+* sorl-thumbnail https://github.com/sorl/sorl-thumbnail
+
+
 # How to use
 ```html
 {% load banner %}
 {% banner_group 'group_name' ['slider.html'] %}
 ```
 
+# Documentation
+https://django-banners.readthedocs.org/ru/latest/
 
 
-в модели баннера исправленно hrml на html придется перименовать колонку в базе даннных
-
-
-
-# Required
-* jQuery - http://jquery.com/
-* sorl-thumbnail https://github.com/sorl/sorl-thumbnail
-
-# Plans
+# Todo
 * New slider types
 	* Set size
 	* Стрелки по бокам
