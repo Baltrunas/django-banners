@@ -17,8 +17,14 @@ Best banners app! Support rotation, sliders, branding, statistics!
 # How to use
 ```html
 {% load banner %}
-{% banner_slider 'group_name' ['slider.html'] %}
+{% banner_group 'group_name' ['slider.html'] %}
 ```
+
+
+
+в модели баннера исправленно hrml на html придется перименовать колонку в базе даннных
+
+
 
 # Required
 * jQuery - http://jquery.com/

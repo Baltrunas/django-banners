@@ -58,7 +58,7 @@ class Banner(models.Model):
 	alt = models.CharField(verbose_name=_('Alt'), max_length=255)
 
 	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
-	img = models.FileField(verbose_name=_('Image'), upload_to='banners')
+	img = models.FileField(verbose_name=_('Image'), upload_to='banners', blank=True, null=True)
 	url = models.CharField(verbose_name=_('URL'), max_length=1024)
 	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'))
 	often = models.PositiveSmallIntegerField(
@@ -68,7 +68,7 @@ class Banner(models.Model):
 	)
 	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), null=True, blank=True)
 
-	hrml = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
+	html = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
 	flash = models.BooleanField(verbose_name=_('Is Flash?'), default=False)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
