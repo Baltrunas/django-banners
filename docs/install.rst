@@ -11,7 +11,7 @@
 .. code-block:: html
 
     <!-- Если используется шаблон слайдера -->
-    <link rel="stylesheet" href="/static/css/slider.css">
+    <link rel="stylesheet" href="/static/banners/css/slider.css">
     <script src="/static/banners/js/slider.js" type="text/javascript"></script>
 
     <!-- Если используется сбор статистики -->
