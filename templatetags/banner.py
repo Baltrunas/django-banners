@@ -15,11 +15,10 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def banner_group(context, group, tpl='slider.html'):
+def banner_group(context, group, tpl='group.html'):
 	try:
-		request = context['request']
+		page_url = context['request'].META['QUERY_STRING']
 		group = BannerGroup.objects.get(slug=group)
-		page_url = request.META['QUERY_STRING']
 		good_urls = []
 		for url in URL.objects.filter(public=True):
 			if url.regex:
@@ -34,15 +33,17 @@ def banner_group(context, group, tpl='slider.html'):
 		banners = False
 		group = False
 
+	context['banners'] = banners
+	context['group'] = group
+
 	t = template.loader.get_template(tpl)
-	return t.render(template.Context({'banners': banners, 'group': group}))
+	return t.render(template.Context(context))
 
 
 @register.simple_tag(takes_context=True)
 def banner_one(context, banner_id, tpl='banner.html'):
 	try:
-		request = context['request']
-		page_url = request.META['QUERY_STRING']
+		page_url = context['request'].META['QUERY_STRING']
 		good_urls = []
 		for url in URL.objects.filter(public=True):
 			if url.regex:
@@ -56,16 +57,18 @@ def banner_one(context, banner_id, tpl='banner.html'):
 	except:
 		banner = False
 
+	context['banner'] = banner
+
 	t = template.loader.get_template(tpl)
-	return t.render(template.Context({'banner': banner}))
+	return t.render(template.Context(context))
 
 
 # block render
 @register.simple_tag(takes_context=True)
 def render(context, content):
-	# try:
+	try:
 		tpl = Template(content)
 		content = Context(context)
 		return tpl.render(content)
-	# except:
-		# return 'Render Error'
+	except:
+		return 'Render Error'

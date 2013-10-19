@@ -1,10 +1,10 @@
 {% if banner.html %}
 	{% load banner %}
-	<div id='banner_{{ banner.id }}' class='b-banner m-banner__html'> 
+	<div id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }} m-banner__html'> 
 		{% render banner.text %}
 	</div>
 {% elif banner.flash %}
-	<div id='banner_{{ banner.id }}' class='b-banner m-banner__flash'> 
+	<div id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }} m-banner__flash'> 
 		<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'
 			codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0'
 			width='{{ banner.group.width }}' height='{{ banner.group.height }}'>
@@ -35,7 +35,21 @@
 		});
 	</script>
 {% else %}
-	<a href='{{ banner.url }}' id='banner_{{ banner.id }}' class='b-banner'>
+	<a href='{{ banner.url }}' id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }}'>
 		<img src='{{ banner.img.url }}' alt='{{ banner.alt }}' title='{{ banner.title }}'>
 	</a>
 {% endif %}
+
+<style>
+	.b-banner {
+		display: block;
+		padding: 0;
+		margin: 0;
+		/*border: 1px solid silver;*/
+	}
+
+	.b-banner-{{ group.slug }} {
+		width: {{ banner.group.width }}px;
+		height: {{ banner.group.height }}px;
+	}
+</style>
