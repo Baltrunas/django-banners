@@ -15,6 +15,7 @@ Contents:
    requirement
    howto
    changelog
+   contribution
 
 
 Indices and tables
