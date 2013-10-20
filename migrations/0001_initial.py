@@ -53,7 +53,7 @@ class Migration(SchemaMigration):
             ('url', self.gf('django.db.models.fields.CharField')(max_length=1024)),
             ('group', self.gf('django.db.models.fields.related.ForeignKey')(related_name='banners', to=orm['banners.BannerGroup'])),
             ('often', self.gf('django.db.models.fields.PositiveSmallIntegerField')()),
-            ('hrml', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('html', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('flash', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('public', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
