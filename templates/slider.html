@@ -47,12 +47,24 @@
 
 <script>
 	(function() {
-		$('.m-{{ group.slug }}').bannersSlider({'auto_play': true, 'speed': {{ group.speed }}});
+		$('.m-{{ group.slug }}').bannersSlider({'auto_play': false, 'speed': {{ group.speed }}});
 	})();
 </script>
 
 <style>
 	.m-{{ group.slug }} {
+		width: {{ group.width }}px;
+		height: {{ group.height }}px;
+	}
+
+	.m-{{ group.slug }} .b-slider-nav-prev,
+	.m-{{ group.slug }} .b-slider-nav-next {
+		line-height: {{ group.height }}px;
+	}
+
+	.m-{{ group.slug }} .b-slider-item,
+	.m-{{ group.slug }} .b-slider-list,
+	.m-{{ group.slug }} .b-slider-nav {
 		width: {{ group.width }}px;
 		height: {{ group.height }}px;
 	}

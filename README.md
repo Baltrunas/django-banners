@@ -3,6 +3,7 @@
 
 Best banners app! Support rotation, sliders, branding, statistics!
 
+
 Install
 -------
 * Add ```'banners',``` to INSTALLED_APPS in settings.py
@@ -20,6 +21,7 @@ Install
 <script src="/static/banners/js/log.js" type="text/javascript"></script>
 ```
 
+
 Required
 --------
 * jQuery - http://jquery.com/
@@ -33,9 +35,11 @@ How to use
 {% banner_group 'group_name' ['slider.html'] %}
 ```
 
+
 Documentation
 -------------
 https://django-banners.readthedocs.org/ru/latest/
+
 
 Todo
 ----
