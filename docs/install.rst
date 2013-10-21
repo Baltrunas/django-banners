@@ -15,7 +15,7 @@
     <script src="/static/banners/js/slider.js" type="text/javascript"></script>
 
     <!-- Если используется сбор статистики -->
-    <script src="/static/banners/js/banners_log.js" type="text/javascript"></script>
+    <script src="/static/banners/js/log.js" type="text/javascript"></script>
 
 * Альтернативно стили и скрипты можно подключить следующим образом:
 
@@ -27,6 +27,6 @@
 
     <!-- Если используется сбор статистики -->
     <script src="{% static "banners/js/slider.js" %}" type="text/javascript"></script>
-    <script src="{% static "banners/js/banners_log.js" %}" type="text/javascript"></script>
+    <script src="{% static "banners/js/log.js" %}" type="text/javascript"></script>
 
 
