@@ -16,35 +16,33 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def banner_group(context, group, tpl='group.html'):
-    try:
-        page_url = context['request'].META['QUERY_STRING']
-        group = BannerGroup.objects.get(slug=group)
-        good_urls = []
-        for url in URL.objects.filter(public=True):
-            if url.regex:
-                url_re = re.compile(url.url)
-                if url_re.findall(page_url):
-                    good_urls.append(url)
-            elif page_url == url.url:
-                good_urls.append(url)
+	try:
+		page_url = context['request'].path_info
+		group = BannerGroup.objects.get(slug=group)
+		good_urls = []
+		for url in URL.objects.filter(public=True):
+			if url.regex:
+				url_re = re.compile(url.url)
+				if url_re.findall(page_url):
+					good_urls.append(url)
+			elif page_url == url.url:
+				good_urls.append(url)
+		banners = Banner.objects.filter(public=True, group=group, urls__in=good_urls)
+	except:
+		banners = False
+		group = False
+	if(banners and group):
+		context['banners'] = banners
+		context['group'] = group
 
-        banners = Banner.objects.filter(public=True, group=group, urls__in=good_urls)
-    except:
-        banners = False
-        group = False
-
-    if(banners and group):
-        context['banners'] = banners
-        context['group'] = group
-
-    t = template.loader.get_template(tpl)
-    return t.render(template.Context(context))
+	t = template.loader.get_template(tpl)
+	return t.render(template.Context(context))
 
 
 @register.simple_tag(takes_context=True)
 def banner_one(context, banner_id, tpl='banner.html'):
 	try:
-		page_url = context['request'].META['QUERY_STRING']
+		page_url = context['request'].path_info
 		good_urls = []
 		for url in URL.objects.filter(public=True):
 			if url.regex:
