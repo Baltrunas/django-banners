@@ -68,4 +68,4 @@ $.fn.bannersSlider = function(options) {
 	}
 
 	return $this;
-}
+};
