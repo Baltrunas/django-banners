@@ -28,6 +28,7 @@
 	position: absolute;
 	z-index: 50;
 	float: left;
+	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	width: 725px;
@@ -48,6 +49,10 @@
 	top: 0;
 	left: 0;
 	text-decoration: none;
+}
+
+.b-slider-item__link {
+
 }
 
 .b-slider-item__title {
@@ -87,13 +92,14 @@
 */
 .b-slider-nav {
 	position: absolute;
+	width: 100%;
 	top: 10px;
+	height: 30px;
 	left: 0;
 	z-index: 500;
 	display: block;
 	margin: 0;
 	padding: 0;
-	width: 750px;
 	list-style-type: none;
 	text-align: center;
 }
