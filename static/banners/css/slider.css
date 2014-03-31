@@ -4,7 +4,7 @@
  **************************
 */
 .b-slider {
-	position: absolute;
+	position: relative;
 	display: block;
 	overflow: hidden;
 	margin: 0;

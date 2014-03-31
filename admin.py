@@ -22,10 +22,10 @@ class BannerAdminInline(admin.StackedInline):
 
 
 class BannerAdmin(admin.ModelAdmin):
-	list_display = ('__unicode__', 'url', 'impressions', 'views', 'clicks', 'public', 'created_at', 'updated_at')
-	search_fields = ('title', 'url', 'impressions', 'views', 'clicks', 'public', 'created_at', 'updated_at')
-	list_filter = ('public', )
-	list_editable = ('public',)
+	list_display = ('__unicode__', 'url', 'sort', 'views', 'clicks', 'public', 'created_at', 'updated_at')
+	search_fields = ('title', 'url', 'sort', 'views', 'clicks', 'public', 'created_at', 'updated_at')
+	list_filter = ['public']
+	list_editable = ['sort', 'public']
 
 admin.site.register(Banner, BannerAdmin)
 
@@ -33,8 +33,8 @@ admin.site.register(Banner, BannerAdmin)
 class BannerGroupAdmin(admin.ModelAdmin):
 	list_display = ('name', 'slug', 'width', 'height', 'speed', 'public', 'created_at', 'updated_at')
 	search_fields = ('name', 'slug', 'width', 'height', 'speed', 'public', 'created_at', 'updated_at')
-	list_filter = ('public', )
-	list_editable = ('public',)
+	list_filter = ['public']
+	list_editable = ['public']
 	inlines = [BannerAdminInline]
 
 admin.site.register(BannerGroup, BannerGroupAdmin)

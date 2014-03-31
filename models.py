@@ -60,6 +60,9 @@ class Banner(models.Model):
 	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
 	img = models.FileField(verbose_name=_('Image'), upload_to='banners', blank=True, null=True)
 	url = models.CharField(verbose_name=_('URL'), max_length=1024)
+
+	sort = models.PositiveSmallIntegerField(verbose_name=_('Sort'), default=500)
+
 	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'))
 	often = models.PositiveSmallIntegerField(
 		verbose_name=_('Often'),
@@ -70,6 +73,7 @@ class Banner(models.Model):
 
 	html = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
 	flash = models.BooleanField(verbose_name=_('Is Flash?'), default=False)
+
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
@@ -122,13 +126,18 @@ class Banner(models.Model):
 				return ('banner_click', (), {'banner_id': self.pk, 'key': self.key()})
 			return get_absolute_url(self)
 
+	class Meta:
+		ordering = ['sort']
+		verbose_name = _('Banner')
+		verbose_name_plural = _('Banners')
+
 
 class Log(models.Model):
 	banner = models.ForeignKey(Banner, related_name='banner_logs')
 	group = models.ForeignKey(BannerGroup, related_name='group_logs', verbose_name=_('Group'), blank=True)
 	urls = models.ManyToManyField(URL, related_name='url_logs', verbose_name=_('URLs'), blank=True)
 
-	user = models.ForeignKey('auth.User', null=True, blank=True, related_name='users', verbose_name=_('User'))
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='users', verbose_name=_('User'))
 	datetime = models.DateTimeField(verbose_name=_('Clicked At'), auto_now_add=True)
 	ip = models.IPAddressField(verbose_name=_('IP'), null=True, blank=True)
 	user_agent = models.CharField(verbose_name=_('User Agent'), max_length=1024, null=True, blank=True)
