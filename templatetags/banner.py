@@ -18,9 +18,10 @@ register = template.Library()
 def banner_group(context, group, tpl='group.html'):
 	try:
 		page_url = context['request'].path_info
+		site = context['request'].site
 		group = BannerGroup.objects.get(slug=group)
 		good_urls = []
-		for url in URL.objects.filter(public=True):
+		for url in URL.objects.filter(public=True, sites__in=[site]):
 			if url.regex:
 				url_re = re.compile(url.url)
 				if url_re.findall(page_url):
@@ -43,8 +44,9 @@ def banner_group(context, group, tpl='group.html'):
 def banner_one(context, banner_id, tpl='banner.html'):
 	try:
 		page_url = context['request'].path_info
+		site = context['request'].site
 		good_urls = []
-		for url in URL.objects.filter(public=True):
+		for url in URL.objects.filter(public=True, sites__in=[site]):
 			if url.regex:
 				url_re = re.compile(url.url)
 				if url_re.findall(page_url):
