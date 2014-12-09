@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*
-from banners.models import Banner
-from banners.models import BannerGroup
-from banners.models import URL
+from ..models import Banner
+from ..models import BannerGroup
+from ..models import URL
 
 from django import template
 

@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*
 from django.shortcuts import redirect, get_object_or_404
-from banners.models import Banner
+from .models import Banner
 
 
 def click(request, banner_id, key):

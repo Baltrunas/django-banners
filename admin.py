@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*
 from django.contrib import admin
 
-from banners.models import URL
-from banners.models import BannerGroup
-from banners.models import Banner
-from banners.models import Log
+from .models import URL
+from .models import BannerGroup
+from .models import Banner
+from .models import Log
 
 class URLAdmin(admin.ModelAdmin):
 	list_display = ['title', 'url', 'regex', 'public', 'created_at', 'updated_at']

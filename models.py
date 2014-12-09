@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*
+import hashlib
+from datetime import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from banners.managers import BiasedManager
 from django.conf import settings
 from django.contrib.sites.models import Site
 
-import hashlib
-from datetime import datetime
+from .managers import BiasedManager
 
 
 class URL(models.Model):
