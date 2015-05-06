@@ -6,7 +6,7 @@ Best banners app! Support rotation, sliders, branding, statistics!
 
 Install
 -------
-* Add ```'banners',``` to INSTALLED_APPS in settings.py
+* Add ```'apps.banners',``` to INSTALLED_APPS in settings.py
 * Add ```url(r'^banners/', include('banners.urls')),``` in urls.py
 * manage.py syncdb
 * manage.py collectstatic
