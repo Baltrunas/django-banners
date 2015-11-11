@@ -71,9 +71,13 @@ class Banner(models.Model):
 	)
 	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), null=True, blank=True)
 
-	html = models.BooleanField(verbose_name=_('Is HTML?'), default=False)
-	flash = models.BooleanField(verbose_name=_('Is Flash?'), default=False)
 
+	FILE_TYPE_CHICES = (
+		('image', _('Image')),
+		('flash', _('Flash')),
+		('html', _('HTML')),
+	)
+	file_type = models.CharField(verbose_name=_('URL'), max_length=32, choices=FILE_TYPE_CHICES, default='image')
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
