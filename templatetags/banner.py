@@ -11,7 +11,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def banner_group(context, group, tpl='group.html'):
+def banner_group(context, group, tpl='banners/group.html'):
 	try:
 		page_url = context['request'].path_info
 		site = context['request'].site

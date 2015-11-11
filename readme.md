@@ -19,7 +19,7 @@ How to use
 ----------
 ```html
 {% load banner %}
-{% banner_group 'group_name' ['slider.html'] %}
+{% banner_group 'group_name' ['banners/group.html'] %}
 ```
 
 
