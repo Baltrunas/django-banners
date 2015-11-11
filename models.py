@@ -79,40 +79,9 @@ class Banner(models.Model):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	def key(slef):
-		if hasattr(settings, 'SECRET_KEY'):
-			key = str(datetime.now()) + settings.SECRET_KEY
-		else:
-			key = str(datetime.now())
-		return hashlib.md5(key).hexdigest()
-
-	def log(self, request, type, key):
-		log = {
-			'type': type,
-			'key': key,
-			'banner': self,
-			'group': self.group,
-			'ip': request.META.get('REMOTE_ADDR'),
-			'user_agent': request.META.get('HTTP_USER_AGENT'),
-			'page': request.META.get('HTTP_REFERER'),
-		}
-
-		if request.user.is_authenticated():
-			log['user'] = request.user
-		return Log.objects.create(**log)
-
 	@models.permalink
 	def image(self):
 		return ('banner_view', (), {'banner_id': self.pk, 'key': self.key()})
-
-	def impressions(self):
-		return Log.objects.filter(banner=self.pk, type=0).count()
-
-	def views(self):
-		return Log.objects.filter(banner=self.pk, type=1).count()
-
-	def clicks(self):
-		return Log.objects.filter(banner=self.pk, type=2).count()
 
 	def __unicode__(self):
 		return self.title or self.alt
@@ -130,41 +99,3 @@ class Banner(models.Model):
 		ordering = ['sort']
 		verbose_name = _('Banner')
 		verbose_name_plural = _('Banners')
-
-
-class Log(models.Model):
-	banner = models.ForeignKey(Banner, related_name='banner_logs')
-	group = models.ForeignKey(BannerGroup, related_name='group_logs', verbose_name=_('Group'), blank=True)
-	urls = models.ManyToManyField(URL, related_name='url_logs', verbose_name=_('URLs'), blank=True)
-
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='users', verbose_name=_('User'))
-	datetime = models.DateTimeField(verbose_name=_('Clicked At'), auto_now_add=True)
-	ip = models.IPAddressField(verbose_name=_('IP'), null=True, blank=True)
-	user_agent = models.CharField(verbose_name=_('User Agent'), max_length=1024, null=True, blank=True)
-	page = models.URLField(verbose_name=_('Page'), null=True, blank=True)
-	key = models.CharField(verbose_name=_('User Agent'), max_length=32, null=True, blank=True)
-	TYPE_CHOICES = (
-		(0, 'impressions'),
-		(1, 'view'),
-		(2, 'click')
-	)
-
-	type = models.PositiveSmallIntegerField(verbose_name=_('Type'), max_length=1, default=0, choices=TYPE_CHOICES)
-
-	def __unicode__(self):
-		return '%s - (%s)' % (self.banner, self.datetime)
-
-
-class LogStat(models.Model):
-	banner = models.ForeignKey(Banner, related_name='banner_stat', verbose_name=_('Banner'), blank=True)
-	group = models.ForeignKey(BannerGroup, related_name='group_stat', verbose_name=_('Group'), blank=True)
-	urls = models.ManyToManyField(URL, related_name='url_bloks', verbose_name=_('URLs'), null=True, blank=True)
-
-	date = models.DateField(verbose_name=_('Data'))
-	view = models.PositiveIntegerField(verbose_name=_('Views'))
-	click = models.PositiveIntegerField(verbose_name=_('Clicks'))
-	unique_click = models.PositiveIntegerField(verbose_name=_('Unique Views'), blank=True, null=True)
-	unique_view = models.PositiveIntegerField(verbose_name=_('Unique Clicks'))
-
-	def __unicode__(self):
-		return '%s - (%s)' % (self.banner, self.date)
