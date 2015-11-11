@@ -38,18 +38,34 @@
 	<a href='{{ banner.url }}' id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }}'>
 		<img src='{{ banner.img.url }}' alt='{{ banner.alt }}' title='{{ banner.title }}'>
 	</a>
+
+
+
+
+
+-------------
+
+			<li data-url='{{ banner.get_absolute_url }}' 
+				class='
+					b-slider-item
+					m-slider-item-{{ forloop.counter }}
+					{% if forloop.counter == 1 %}
+						m-slider-current
+					{% endif %}
+			'
+				data-slide='{{ forloop.counter }}'
+			>
+
+				<a href='{{ banner.get_absolute_url }}' class='b-slider-item__link'>
+					{% thumbnail banner.img group.size crop="top" as im %}
+						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-slider-item__img' data-view='{{ banner.image }}'>
+					{% endthumbnail %}
+
+					<div class="b-slider-item__info_cover">
+						<span class='b-slider-item__title'>{{ banner.title|safe }}</span>
+						<span class='b-slider-item__text'>{{ banner.text|safe }}</span>
+					</div>
+				</a>
+			</li>
+
 {% endif %}
-
-<style>
-	.b-banner {
-		display: block;
-		padding: 0;
-		margin: 0;
-		/*border: 1px solid silver;*/
-	}
-
-	.b-banner-{{ group.slug }} {
-		width: {{ banner.group.width }}px;
-		height: {{ banner.group.height }}px;
-	}
-</style>

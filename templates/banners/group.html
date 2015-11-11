@@ -2,56 +2,13 @@
 
 {% if banners %}
 
-	<div class="b-slider m-{{ group.slug }}" id="slider-{{ group.slug }}">
-		<ul class='b-slider-list'>
-			{% for banner in banners %}
-			<li data-url='{{ banner.get_absolute_url }}' 
-				class='
-					b-slider-item
-					m-slider-item-{{ forloop.counter }}
-					{% if forloop.counter == 1 %}
-						m-slider-current
-					{% endif %}
-			'
-				data-slide='{{ forloop.counter }}'
-			>
-
-				<a href='{{ banner.get_absolute_url }}' class='b-slider-item__link'>
-					{% thumbnail banner.img group.size crop="top" as im %}
-						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-slider-item__img' data-view='{{ banner.image }}'>
-					{% endthumbnail %}
-
-					<div class="b-slider-item__info_cover">
-						<span class='b-slider-item__title'>{{ banner.title|safe }}</span>
-						<span class='b-slider-item__text'>{{ banner.text|safe }}</span>
-					</div>
-				</a>
-			</li>
-			{% endfor %}
-		</ul>
-
-		<ul class="b-slider-nav">
-			{% for banner in banners %}
-				<li class="b-slider-nav-button
-					{% if forloop.counter == 1 %}
-						m-slider-nav-current_button
-					{% endif %}
-				" data-slide='{{ forloop.counter }}'>
-					{{ forloop.counter }}
-				</li>
-			{% endfor %}
-		</ul>
-
-		<span  data-direction="prev" class='b-slider-nav-prev'>&#9001;&nbsp;&nbsp;</span>
-		<span data-direction="next" class='b-slider-nav-next'>&nbsp;&nbsp;&#9002;</span>
-
-	</div>
-
-<script>
-	(function() {
-		$('.m-{{ group.slug }}').bannersSlider({'auto_play': {{ group.speed }}, 'speed': {{ group.speed }}});
-	})();
-</script>
+<div class="b-slider m-{{ group.slug }}" id="slider-{{ group.slug }}">
+	<ul class='b-slider-list'>
+		{% for banner in banners %}
+			{% include "banners/banner.html" with banner=banner %}
+		{% endfor %}
+	</ul>
+</div>
 
 <style>
 	.m-{{ group.slug }} {
@@ -69,6 +26,19 @@
 		width: {{ group.width }}px;
 		height: {{ group.height }}px;
 	}
+
+	.b-banner {
+		display: block;
+		padding: 0;
+		margin: 0;
+		/*border: 1px solid silver;*/
+	}
+
+	.b-banner-{{ group.slug }} {
+		width: {{ banner.group.width }}px;
+		height: {{ banner.group.height }}px;
+	}
+
 </style>
 
 {% endif %}
