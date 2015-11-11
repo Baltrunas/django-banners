@@ -1,71 +1,53 @@
-{% if banner.html %}
-	{% load banner %}
-	<div id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }} m-banner__html'> 
-		{% render banner.text %}
-	</div>
-{% elif banner.flash %}
-	<div id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }} m-banner__flash'> 
-		<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'
-			codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0'
-			width='{{ banner.group.width }}' height='{{ banner.group.height }}'>
-			<param name='movie' value='{{ banner.img.url }}' /> 
-			<param name='quality' value='high'>
-			<param name='play' value='true'>
-			<param name='loop' value='true'>
-			<param name='wmode' value='transparent'>
-			<embed src='{{ banner.img.url }}'
-				quality='high'
-				bgcolor='#d0f'
-				width='{{ banner.group.width }}'
-				height='{{ banner.group.height }}' 
-				name='banner_{{ banner.id }}'
-				type='application/x-shockwave-flash' 
-				play='true'
-				loop='true'
-				wmode='transparent'
-				pluginspage='http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'
-			>
-			</embed>
-		</object>
-	</div>
-
-	<script>
-		$('#banner_{{ banner.id }}').mousedown(function() {
-			// alert('mouse down');
-		});
-	</script>
-{% else %}
+<li id='banner_{{ banner.id }}' class='b-banner b-banner-{{ banner.group.slug }} m-banner__{{ banner.file_type }}'> 
+{% if banner.file_type == 'html' %}
+	{% banner.text|safe %}
+{% elif banner.file_type == 'flash' %}
+	<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'
+		codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0'
+		width='{{ banner.group.width }}' height='{{ banner.group.height }}'>
+		<param name='movie' value='{{ banner.img.url }}' /> 
+		<param name='quality' value='high'>
+		<param name='play' value='true'>
+		<param name='loop' value='true'>
+		<param name='wmode' value='transparent'>
+		<embed src='{{ banner.img.url }}'
+			quality='high'
+			bgcolor='#d0f'
+			width='{{ banner.group.width }}'
+			height='{{ banner.group.height }}' 
+			name='banner_{{ banner.id }}'
+			type='application/x-shockwave-flash' 
+			play='true'
+			loop='true'
+			wmode='transparent'
+			pluginspage='http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'
+		>
+		</embed>
+	</object>
+{% elif banner.file_type == 'image' %}
 	<a href='{{ banner.url }}' id='banner_{{ banner.id }}' class='b-banner b-banner-{{ group.slug }}'>
 		<img src='{{ banner.img.url }}' alt='{{ banner.alt }}' title='{{ banner.title }}'>
 	</a>
 
+	------------- КОНФЛИКТ -------------
 
+	<a href='{{ banner.get_absolute_url }}' class='b-slider-item__link'>
+		{% thumbnail banner.img group.size crop="top" as im %}
+			<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-slider-item__img' data-view='{{ banner.image }}'>
+		{% endthumbnail %}
 
-
-
--------------
-
-			<li data-url='{{ banner.get_absolute_url }}' 
-				class='
-					b-slider-item
-					m-slider-item-{{ forloop.counter }}
-					{% if forloop.counter == 1 %}
-						m-slider-current
-					{% endif %}
-			'
-				data-slide='{{ forloop.counter }}'
-			>
-
-				<a href='{{ banner.get_absolute_url }}' class='b-slider-item__link'>
-					{% thumbnail banner.img group.size crop="top" as im %}
-						<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ banner.alt }}" title="{{ banner.title }}" class='b-slider-item__img' data-view='{{ banner.image }}'>
-					{% endthumbnail %}
-
-					<div class="b-slider-item__info_cover">
-						<span class='b-slider-item__title'>{{ banner.title|safe }}</span>
-						<span class='b-slider-item__text'>{{ banner.text|safe }}</span>
-					</div>
-				</a>
-			</li>
+		<div class="b-slider-item__info_cover">
+			<span class='b-slider-item__title'>{{ banner.title|safe }}</span>
+			<span class='b-slider-item__text'>{{ banner.text|safe }}</span>
+		</div>
+	</a>
 
 {% endif %}
+</li><!-- b-banner -->
+
+
+<script>
+	$('#banner_{{ banner.id }}').mousedown(function() {
+		// alert('mouse down');
+	});
+</script>
