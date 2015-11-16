@@ -83,21 +83,8 @@ class Banner(models.Model):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	@models.permalink
-	def image(self):
-		return ('banner_view', (), {'banner_id': self.pk, 'key': self.key()})
-
 	def __unicode__(self):
 		return self.title or self.alt
-
-	def get_absolute_url(self):
-		if self.url == '#':
-			return self.url
-		else:
-			@models.permalink
-			def get_absolute_url(self):
-				return ('banner_click', (), {'banner_id': self.pk, 'key': self.key()})
-			return get_absolute_url(self)
 
 	class Meta:
 		ordering = ['sort']
