@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <li id='banner_{{ banner.id }}' class='b-banner b-banner-{{ banner.group.slug }} m-banner__{{ banner.file_type }}'> 
 {% if banner.file_type == 'html' %}
 	<iframe src='{{ banner.img.url }}' frameborder='0' scrolling='no' width='{{ banner.group.width }}' height='{{ banner.group.height }}'>
