@@ -1,3 +1,4 @@
+# coding: utf-8
 import hashlib
 from datetime import datetime
 
@@ -13,7 +14,7 @@ class URL(models.Model):
 	title = models.CharField(verbose_name=_('Title'), max_length=256)
 	url = models.CharField(verbose_name=_('URL or URL RegEx'), max_length=2048)
 	regex = models.BooleanField(verbose_name=_('RegEx'), default=False)
-	sites = models.ManyToManyField(Site, related_name='site_urls', verbose_name=_('Sites'), null=True, blank=True)
+	sites = models.ManyToManyField(Site, related_name='site_urls', verbose_name=_('Sites'), blank=True)
 
 	public = models.BooleanField(verbose_name=_('Public'), default=True)
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
