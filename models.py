@@ -70,7 +70,7 @@ class Banner(models.Model):
 		help_text=_('A ten will display 10 times more often that a one.'),
 		choices=[[i, i] for i in range(11)]
 	)
-	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), null=True, blank=True)
+	urls = models.ManyToManyField(URL, related_name='url_banners', verbose_name=_('URLs'), blank=True)
 
 
 	FILE_TYPE_CHICES = (
