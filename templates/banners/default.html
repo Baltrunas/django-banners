@@ -2,17 +2,7 @@
 
 {% if banners %}
 
-{% comment %}
-	
-{{ banner.group.width }}
-{{ group.slug }}
-
-{{ group.height }}
-{{ banner.group.height }}
-
-{% endcomment %}
-
-<ul class='b-banner-group m-banner_{{ group.slug }}'>
+<ul class='b-banner-group m-banner_{{ group.slug }} m-banner_{{ group.size }}'>
 	<li class='b-banner m-banner_{{ banner.file_type }} m-banner_{{ banner.id }}'> 
 		{% if banner.file_type == "html" %}
 			<iframe src='{{ banner.img.url }}' frameborder='0' scrolling='no' width='{{ banner.group.width }}' height='{{ banner.group.height }}'></iframe>
@@ -57,6 +47,5 @@
 
 	</li><!-- b-banner -->
 </ul><!-- b-banner-group -->
-
 
 {% endif %}

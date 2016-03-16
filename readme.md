@@ -18,8 +18,8 @@ Required
 How to use
 ----------
 ```html
-{% load banner %}
-{% banner_group 'group_name' ['banners/group.html'] %}
+{% load banners %}
+{% banners 'group_slug' ['banners/default.html'] %}
 ```
 
 
