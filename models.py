@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.sites.models import Site
 
+from helpful.fields import upload_to
+
 from .managers import BiasedManager
 
 
@@ -59,7 +61,7 @@ class Banner(models.Model):
 	alt = models.CharField(verbose_name=_('Alt'), max_length=255)
 
 	text = models.TextField(verbose_name=_('Text'), blank=True, null=True)
-	img = models.FileField(verbose_name=_('Image'), upload_to='banners', blank=True, null=True)
+	img = models.FileField(verbose_name=_('Image'), upload_to=upload_to, blank=True, null=True)
 	url = models.CharField(verbose_name=_('URL'), max_length=1024)
 
 	sort = models.PositiveSmallIntegerField(verbose_name=_('Sort'), default=500)
