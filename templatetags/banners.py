@@ -12,6 +12,7 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def banners(context, group, tpl='banners/default.html'):
+	tpl_context = {}
 	try:
 		page_url = context['request'].path_info
 		site = context['request'].site
@@ -29,8 +30,9 @@ def banners(context, group, tpl='banners/default.html'):
 		banners = False
 		group = False
 	if(banners and group):
-		context['banners'] = banners
-		context['group'] = group
+		tpl_context['banners'] = banners
+		tpl_context['group'] = group
 
 	t = template.loader.get_template(tpl)
-	return t.render(template.Context(context))
+	# return t.render(template.Context(context))
+	return t.render(tpl_context, request=context['request'])

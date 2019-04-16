@@ -20,7 +20,7 @@ class BannerAdminInline(admin.StackedInline):
 
 
 class BannerAdmin(admin.ModelAdmin):
-	list_display = ['__unicode__', 'url', 'sort', 'public', 'created_at', 'updated_at']
+	list_display = ['__str__', 'url', 'sort', 'public', 'created_at', 'updated_at']
 	search_fields = ['title', 'url', 'sort', 'public', 'created_at', 'updated_at']
 	list_filter = ['public']
 	list_editable = ['sort', 'public']

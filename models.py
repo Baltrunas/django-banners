@@ -22,7 +22,7 @@ class URL(models.Model):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:
@@ -45,7 +45,7 @@ class BannerGroup (models.Model):
 	def size(self):
 		return '%sx%s' % (self.width, self.height)
 
-	def __unicode__(self):
+	def __str__(self):
 		return '%s - [%s x %s]' % (self.name,  self.width, self.height)
 
 	class Meta:
@@ -66,7 +66,7 @@ class Banner(models.Model):
 
 	sort = models.PositiveSmallIntegerField(verbose_name=_('Sort'), default=500)
 
-	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'))
+	group = models.ForeignKey(BannerGroup, related_name='banners', verbose_name=_('Group'), on_delete=models.CASCADE)
 	often = models.PositiveSmallIntegerField(
 		verbose_name=_('Often'),
 		help_text=_('A ten will display 10 times more often that a one.'),
@@ -77,6 +77,7 @@ class Banner(models.Model):
 
 	FILE_TYPE_CHICES = (
 		('image', _('Image')),
+		('image-original', _('Image Original')),
 		('flash', _('Flash')),
 		('html', _('HTML')),
 	)
@@ -86,7 +87,7 @@ class Banner(models.Model):
 	created_at = models.DateTimeField(verbose_name=_('Created At'), auto_now_add=True)
 	updated_at = models.DateTimeField(verbose_name=_('Updated At'), auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title or self.alt
 
 	class Meta:

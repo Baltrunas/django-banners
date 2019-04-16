@@ -1,9 +1,9 @@
 {% load thumbnail %}
 
 {% if banners %}
-<ul class='b-banner-group m-banner_{{ group.slug }} m-banner_{{ group.size }}'>
+<ul class='banners banners--{{ group.slug }} banners--size_{{ group.size }}'>
 	{% for banner in banners %}
-		<li class='b-banner m-banner_{{ banner.file_type }} m-banner_{{ banner.id }}'> 
+		<li class='banner banner--{{ banner.file_type }} banner--id_{{ banner.id }}'> 
 			{% if banner.file_type == "html" %}
 				<iframe src='{{ banner.img.url }}' frameborder='0' scrolling='no' width='{{ banner.group.width }}' height='{{ banner.group.height }}'></iframe>
 			{% elif banner.file_type == "flash" %}
@@ -31,17 +31,20 @@
 					</embed>
 				</object>
 			{% elif banner.file_type == 'image' %}
-				<a href='{{ banner.url }}' class='b-banner__link'>
+				<a href='{{ banner.url }}' class='banner__link'>
 					{% thumbnail banner.img group.size crop="center" as im %}
-						<img src='{{ im.url }}' width='{{ im.width }}' height='{{ im.height }}' alt='{{ banner.alt }}' title='{{ banner.title }}' class='b-banner__img'>
+						<img src='{{ im.url }}' width='{{ im.width }}' height='{{ im.height }}' alt='{{ banner.alt }}' title='{{ banner.title }}' class='banner__img'>
 					{% endthumbnail %}
 				</a>
-
+			{% elif banner.file_type == 'image-original' %}
+				<a href='{{ banner.url }}' class='banner__link'>
+					<img src='{{ banner.img.url }}' alt='{{ banner.alt }}' title='{{ banner.title }}' class='banner__img'>
+				</a>
 			{% endif %}
 
-			<div class='b-banner__info'>
-				<span class='b-banner-info__title'>{{ banner.title|safe }}</span>
-				<span class='b-banner-info__text'>{{ banner.text|safe }}</span>
+			<div class='banner__info'>
+				<span class='banner__info_title'>{{ banner.title|safe }}</span>
+				<span class='banner__info_text'>{{ banner.text|safe }}</span>
 			</div>
 			
 		</li><!-- b-banner -->
